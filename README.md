@@ -154,7 +154,7 @@ This Guidance uses AWS CDK. If you are using aws-cdk for the first time, please 
 
 3. Navigate to the folder: docker_app using
    ```
-   cd docker_app
+   cd source/docker_app
    ```
 
 4. This project is a Python Project. Switch to the Virtual Env using the below command:
