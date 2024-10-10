@@ -64,7 +64,7 @@ Core Features:
 
 Pricing for Bedrock involves charges for model inference and customization. Note that some token pricing for 3P models on Amazon Bedrock is not included in the cost calculator
 
-<!-- Check out the [cost calculator](https://calculator.aws/#/estimate?id=d6c9881b3009a6d2d79466bac141fb029821284c) for deploying this project. -->
+Check out the [cost calculator](https://calculator.aws/#/estimate?id=6cfc315f3b5ada689f59ecb76e1b3c5f32db0c83) for deploying this project.
 
 *Note: For the most current and detailed pricing information for Amazon Bedrock, please refer to the [Amazon Bedrock Pricing Page](https://aws.amazon.com/bedrock/pricing/).*
 
@@ -215,7 +215,7 @@ Once you run the above command in cloud 9 environment, it will take approximatel
 
    - Go to Amazon Bedrock Console --> Builder Tool --> Knowledge Bases
 
-   - Click on Create Knowledge Bases 
+   - Click on Create Knowledge Bases.
 
    - Provide Knowledge Bases Name as 'Investment-KB'. Keep everything as default and click on next. The default selections are S3 Bucket for datasource and create new IAM Role
 
