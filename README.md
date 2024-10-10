@@ -64,7 +64,7 @@ Core Features:
 
 Pricing for Bedrock involves charges for model inference and customization. Note that some token pricing for 3P models on Amazon Bedrock is not included in the cost calculator
 
-Check out the [cost calculator](https://calculator.aws/#/estimate?id=6cfc315f3b5ada689f59ecb76e1b3c5f32db0c83) for deploying this project.
+Check out the [cost calculator](https://calculator.aws/#/estimate?id=758ab1bd6364356f2a41903cb1858e57f20b810c) for deploying this project.
 
 *Note: For the most current and detailed pricing information for Amazon Bedrock, please refer to the [Amazon Bedrock Pricing Page](https://aws.amazon.com/bedrock/pricing/).*
 
@@ -81,7 +81,74 @@ The following table provides a sample cost breakdown for deploying this Guidance
 | Amazon API Gateway | 1,000,000 REST API calls per month  | $ 3.50month |
 | Amazon Cognito | 1,000 active users per month without advanced security feature | $ 0.00 | -->
 
-| Description | Service | Upfront [USD] | Monthly [USD] | First 12 months total [USD] | Configuration summary |
+| AWS Services Cost | Small Customer | Medium Customer | Large Customer |
+|------------------|-----------------|-----------------|----------------|
+| Vector Database Cost | $58,725.00 | $116,745.00 | $233,073.00 |
+| Report Generation Costs (Bedrock OD) | $4,301.00 | $12,909.00 | $43,032.00 |
+| Investment Analyst Web App and Data Loaders | $38,618.88 | $77,237.76 | $154,475.52 |
+| Total Cost | $101,644.88 | $206,891.76 | $430,580.52 |
+| Savings plan / EDP / ETC (33% less) | | |
+
+**Small Customer:**
+
+| | Q1 | Q2 | Q3 | Q4 | Annual Costs | Percent Costs |
+|------------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+| Vector Database Costs | $14,643 | $14,667 | $14,694 | $14,721 | $58,725 | 93.18 % |
+| Report Generation Costs (Bedrock OD) | $998 | $1,048 | $1,100 | $1,155 | $4,301 | 6.82 % |
+| Total | $15,641 | $15,715 | $15,794 | $15,876 | $63,026 | 100.00 % |
+
+**Medium Customer:**
+
+| | Q1 | Q2 | Q3 | Q4 | Annual Costs | Percent Costs |
+|------------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+| Vector Database Costs | $29,091 | $29,154 | $29,217 | $29,283 | $116,745 | 90.04 % |
+| Report Generation Costs (Bedrock OD) | $2,995 | $3,145 | $3,302 | $3,467 | $12,909 | 9.96 % |
+| Total | $32,086 | $32,299 | $32,519 | $32,750 | $129,654 | 100.00 % |
+
+**Large Customer:**
+
+| | Q1 | Q2 | Q3 | Q4 | Annual Costs | Percent Costs |
+|------------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+| Vector Database Costs | $58,080 | $58,203 | $58,329 | $58,461 | $233,073 | 84.41 % |
+| Report Generation Costs (Bedrock OD) | $9,984 | $10,483 | $11,007 | $11,558 | $43,032 | 15.59 % |
+| Total | $68,064 | $68,686 | $69,336 | $70,019 | $276,105 | 100.00 % |
+
+**Calculations for Medium Customer**
+
+**Q1: Monthly Tokens and Costs**
+Number of reports per month = 15,000; number of words per prompt= 1,000; Thus, number of words per month = 15,000,000.  
+Number of tokens per word = 1.25; Thus, number of input tokens = 98,437,500; This includes 79,687,500 tokens for context from vector DB.  
+Costs per input million tokens = $3.0; input token costs = $295.  
+Number of words generated per report = 2,500; number of reports per month = 15,000; number of tokens per word = 1.25; Thus, number of output tokens = 46,875,000.  
+Costs per output million tokens = $15.0; output token costs = $703.  
+Total costs = $998 per month; $2,995 in quarter Q1.
+
+**Q2: Monthly Tokens and Costs**
+Number of reports per month = 15,750; number of words per prompt= 1,000; Thus, number of words per month = 15,750,000.  
+Number of tokens per word = 1.25; Thus, number of input tokens = 103,359,375; This includes 83,671,875 tokens for context from vector DB.  
+Costs per input million tokens = $3.0; input token costs = $310.  
+Number of words generated per report = 2,500; number of reports per month = 15,750; number of tokens per word = 1.25; Thus, number of output tokens = 49,218,750.  
+Costs per output million tokens = $15.0; output token costs = $738.  
+Total costs = $1,048 per month; $3,145 in quarter Q2.
+
+**Q3: Monthly Tokens and Costs**
+Number of reports per month = 16,538; number of words per prompt= 1,000; Thus, number of words per month = 16,537,500.  
+Number of tokens per word = 1.25; Thus, number of input tokens = 108,527,344; This includes 87,855,469 tokens for context from vector DB.  
+Costs per input million tokens = $3.0; input token costs = $326.  
+Number of words generated per report = 2,500; number of reports per month = 16,538; number of tokens per word = 1.25; Thus, number of output tokens = 51,679,688.  
+Costs per output million tokens = $15.0; output token costs = $775.  
+Total costs = $1,101 per month; $3,302 in quarter Q3.
+
+**Q4: Monthly Tokens and Costs**
+Number of reports per month = 17,364; number of words per prompt= 1,000; Thus, number of words per month = 17,364,375.  
+Number of tokens per word = 1.25; Thus, number of input tokens = 113,953,711; This includes 92,248,242 tokens for context from vector DB.  
+Costs per input million tokens = $3.0; input token costs = $342.  
+Number of words generated per report = 2,500; number of reports per month = 17,364; number of tokens per word = 1.25; Thus, number of output tokens = 54,263,672.  
+Costs per output million tokens = $15.0; output token costs = $814.  
+Total costs = $1,156 per month; $3,467 in quarter Q4.
+
+
+<!-- | Description | Service | Upfront [USD] | Monthly [USD] | First 12 months total [USD] | Configuration summary |
 |-------------|----------|--------------|--------------|----------------------------|-------------------------|
 | TextGeneration Lambda | AWS Lambda | 0 | 0 | 0 | Architecture (x86), Number of requests (10 per hour), Amount of ephemeral storage allocated (512 MB) |
 | | AWS Secrets Manager | 0 | 1.3 | 15.6 | Number of secrets (2), Average duration of each secret (30 days), Number of API calls (100000 per month) |
@@ -99,7 +166,7 @@ The following table provides a sample cost breakdown for deploying this Guidance
 | | DynamoDB provisioned capacity | 780 | 146.55 | 2538.6 | Average item size (all attributes) (5 KB), Data storage size (100 GB) |
 | | AWS Lambda | 0 | 14.17 | 170.04 | Architecture (x86), Amount of ephemeral storage allocated (512 MB), Number of requests (1000000 per month) |
 | | Bedrock Claude Sonnet | 0 | 8100 | 97200 | Text Generation model available on Amazon Bedrock |
-| | Stable Diffusion SDXL 1 | 0 | 4000 | 48000 | Image generation model available on Amazon Bedrock|
+| | Stable Diffusion SDXL 1 | 0 | 4000 | 48000 | Image generation model available on Amazon Bedrock| -->
 
 ## Prerequisites
 
