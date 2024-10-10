@@ -90,6 +90,7 @@ The following table provides a sample cost breakdown for deploying this Guidance
 | Savings plan / EDP / ETC (33% less) | | |
 
 **Small Customer:**
+<br>
 
 | | Q1 | Q2 | Q3 | Q4 | Annual Costs | Percent Costs |
 |------------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
@@ -98,6 +99,7 @@ The following table provides a sample cost breakdown for deploying this Guidance
 | Total | $15,641 | $15,715 | $15,794 | $15,876 | $63,026 | 100.00 % |
 
 **Medium Customer:**
+<br>
 
 | | Q1 | Q2 | Q3 | Q4 | Annual Costs | Percent Costs |
 |------------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
@@ -106,6 +108,7 @@ The following table provides a sample cost breakdown for deploying this Guidance
 | Total | $32,086 | $32,299 | $32,519 | $32,750 | $129,654 | 100.00 % |
 
 **Large Customer:**
+<br>
 
 | | Q1 | Q2 | Q3 | Q4 | Annual Costs | Percent Costs |
 |------------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
@@ -115,6 +118,8 @@ The following table provides a sample cost breakdown for deploying this Guidance
 
 **Calculations for Medium Customer**
 
+<br>
+
 **Q1: Monthly Tokens and Costs**
 Number of reports per month = 15,000; number of words per prompt= 1,000; Thus, number of words per month = 15,000,000.  
 Number of tokens per word = 1.25; Thus, number of input tokens = 98,437,500; This includes 79,687,500 tokens for context from vector DB.  
@@ -122,6 +127,8 @@ Costs per input million tokens = $3.0; input token costs = $295.
 Number of words generated per report = 2,500; number of reports per month = 15,000; number of tokens per word = 1.25; Thus, number of output tokens = 46,875,000.  
 Costs per output million tokens = $15.0; output token costs = $703.  
 Total costs = $998 per month; $2,995 in quarter Q1.
+
+<br>
 
 **Q2: Monthly Tokens and Costs**
 Number of reports per month = 15,750; number of words per prompt= 1,000; Thus, number of words per month = 15,750,000.  
@@ -131,6 +138,8 @@ Number of words generated per report = 2,500; number of reports per month = 15,7
 Costs per output million tokens = $15.0; output token costs = $738.  
 Total costs = $1,048 per month; $3,145 in quarter Q2.
 
+<br>
+
 **Q3: Monthly Tokens and Costs**
 Number of reports per month = 16,538; number of words per prompt= 1,000; Thus, number of words per month = 16,537,500.  
 Number of tokens per word = 1.25; Thus, number of input tokens = 108,527,344; This includes 87,855,469 tokens for context from vector DB.  
@@ -138,6 +147,8 @@ Costs per input million tokens = $3.0; input token costs = $326.
 Number of words generated per report = 2,500; number of reports per month = 16,538; number of tokens per word = 1.25; Thus, number of output tokens = 51,679,688.  
 Costs per output million tokens = $15.0; output token costs = $775.  
 Total costs = $1,101 per month; $3,302 in quarter Q3.
+
+<br>
 
 **Q4: Monthly Tokens and Costs**
 Number of reports per month = 17,364; number of words per prompt= 1,000; Thus, number of words per month = 17,364,375.  
