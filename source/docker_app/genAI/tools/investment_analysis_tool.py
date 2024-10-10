@@ -12,6 +12,26 @@ bedrock_region = Config.BEDROCK_REGION
 kb_id = Config.KB_ID
 bedrock_agent_runtime_client = boto3.client("bedrock-agent-runtime", region_name=bedrock_region)
 
+
+# Create an SSM client
+ssm_client = boto3.client('ssm')
+
+# Define the parameter name
+parameter_name = '/InvestmentAnalystAssistant/kb_id'
+
+# Retrieve the parameter value
+response = ssm_client.get_parameter(
+    Name=parameter_name,
+    WithDecryption=False
+)
+
+# Get the parameter value
+KB_ID = response['Parameter']['Value']
+
+kb_id = KB_ID
+
+print(f"KB_ID : {KB_ID}")
+
 # Define the input schema for the income statement tool
 class InvestmentAnalysisInput(BaseModel):
     ticker: str = Field(description="The stock ticker symbol to fetch the income statement for.")

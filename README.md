@@ -64,7 +64,7 @@ Core Features:
 
 Pricing for Bedrock involves charges for model inference and customization. Note that some token pricing for 3P models on Amazon Bedrock is not included in the cost calculator
 
-<!-- Check out the [cost calculator](https://calculator.aws/#/estimate?id=d6c9881b3009a6d2d79466bac141fb029821284c) for deploying this project. -->
+Check out the [cost calculator](https://calculator.aws/#/estimate?id=6cfc315f3b5ada689f59ecb76e1b3c5f32db0c83) for deploying this project.
 
 *Note: For the most current and detailed pricing information for Amazon Bedrock, please refer to the [Amazon Bedrock Pricing Page](https://aws.amazon.com/bedrock/pricing/).*
 
@@ -154,7 +154,7 @@ This Guidance uses AWS CDK. If you are using aws-cdk for the first time, please 
 
 3. Navigate to the folder: docker_app using
    ```
-   cd source/docker_app
+   cd docker_app
    ```
 
 4. This project is a Python Project. Switch to the Virtual Env using the below command:
@@ -203,15 +203,40 @@ Once you run the above command in cloud 9 environment, it will take approximatel
 
 - Once cdk stack is deployed and assets are created, you can navigate setup the Amazon Knowledge Base and Amazon Bedrock Agents to leverage custom agent tool.
 
-- **Amazon Bedrock Knowledge base creation - TBD-CHINTAN**
-  - Navigate to Amazon Bedrock Knowledge base in AWS console.
-  - Follow [instructions](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create.html) to create your own Bedrock Knowledge Base with Opensearch serverless vector DB in your account.
-  - Provide a knowledge base name.
-  - Further, provide the S3 URI of the object containing the files for the data source that you prepared, that is, select the S3 as data source to your Knowledge base setup that got created due to CDK deployment.
-    - For this, click `browse s3` and select bucket starting with the name - `virtualstyliststack-virtualstylistappbucketcdk`
-  - Next, you can keep the chunking strategy as "default", select `Titan Text Embeddings v2` model to embed the information and select `Quick create a new vector store` in order to have default option for the vector DB when creating the knowledge base. Note that Knowledge Base can take approximately 10 minutes to be created.
-  - Take note of the `data source ID` and `knowledge base ID` once the knowledge base has been created. You will add the `Data source ID` and `knoweldge base ID` as environment variables to AWS lambda Virtual Stylist Text function that resulted from CDK deployment.
-  - These 2 values will also be added to the environment variables in `Ingestion Lambda function` responsible to ingesting any new product catalog or customer reviews files uploaded to your designated S3 bucket.
+- **Amazon Bedrock Knowledge base creation**
+   #### Create S3 Bucket
+   In the S3 bucket, we will store various information related to stock research reports and basic information related to Investments. 
+
+   - Search on Amazon S3 in the search console and create S3 bucket. The name of the bucket should start with your AWS account number and some random number. The following should be the format **AWSAccountNo-investment-RandomNo**
+   - Download investment research Articles and upload them in the S3 bucket.  
+
+
+   #### Create Amazon Bedrock KnowledgeBase
+
+   - Go to Amazon Bedrock Console --> Builder Tool --> Knowledge Bases
+
+   - Click on Create Knowledge Bases.
+
+   - Provide Knowledge Bases Name as 'Investment-KB'. Keep everything as default and click on next. The default selections are S3 Bucket for datasource and create new IAM Role
+
+   - Provide Datasource Name as: Investment-research-reports and select the name of S3 bucket created in the previous step for S3 URI
+
+   - Keep everything as default and click on next
+
+   - Select "Titan Text Embeddings v2" as embedding model
+
+   - Select "Quick create a new vector store - Recommended" for vector database
+
+   - Click on next and then click on Create Knowledge Base
+
+   This will create new knowledge base. We can add more data sources if needed. 
+
+   ### Modify System Parameters
+
+   - Navigate to the AWS Systems Manager console 
+   - Go to the toggle on the left, and under Application Management select Parameter Store
+   - Select and edit following parameters - **'/InvestmentAnalystAssistant/kb_id'**
+   - Set value of knowledge base from the previous steps
 
 - **Amazon Bedrock Agent Creation**
   - Navigate to Amazon Bedrock Agents in AWS console. Click on `Create Agent` to initiate building a new Bedrock Agent.
@@ -303,20 +328,6 @@ Once you run the above command in cloud 9 environment, it will take approximatel
     - For the "Value" field, enter the actual value you obtained from Alpha Vantage. Click `Save` to apply the changes as shown below.
 ![env_variables](assets/images/InvestmentAnalyst-AlphaVantageKey.png)
 
-<!-- - **Weather API Agent**
-  - The cdk stack additionally deploys weather api agent lambda function. This weather agent lambda function integrates with Amazon Bedrock Agent you created in the earlier steps in order to fetch the accurate weather conditions based on the user's input location within the query.
-  - Note that the lambda function created for weather agent needs to have openweather map API key to fetch the accurate weather conditions pertaining to a given location. Follow the below instructions in order to create your weather api key:
-    - Navigate to [openweathermap](https://home.openweathermap.org/) and register an account on the website.
-    - Once you have created the account, navigate to [API keys web-page](https://home.openweathermap.org/api_keys) and click on generate your weather api key. An api key with the name you type will be created as shown below.
-![weatherapi](assets/images/weather_api.png)
-  - Once that has been created, you can use the api key in your Action group lambda function for weather api agent as part of environment variable as shown in the following section. -->
-<!-- 
-- **Action Group Lambda Function for Weather API Agent**
-  - The Virtual Personal Stylist application uses a Lambda function that is associated with an `Action Group` in the Bedrock Agent. This Lambda function is triggered when the Bedrock Agent is invoked from the text generation lambda function called via front-end of the application.
-  - You have already associated this lambda function (`VirtualStylistStack-WeatherFunction..`) to your Amazon Bedrock Agent.
-  - Simply navigate to the environment variable of the lambda function as shown earlier and provide `YOUR_OPENWEATHERMAP_API_KEY` you fetched in the previous section. This API key is required to authenticate and make requests to the OpenWeatherMap API.
-  - Additionally, we are using requests library in this lambda function to trigger OpenWeatherMap API. By default, requests library does not exist in the existing dependency packages. Follow the next section to create your own lambda layer and attach it to this lambda function. -->
-
 - **Instructions for creating lambda layer**
   - A Lambda Layer is a mechanism in AWS Lambda that allows you to package and share common code, libraries, or other dependencies that can be used by multiple Lambda functions. This helps to optimize the size of your Lambda functions, as the layer can be shared across functions, reducing the overall deployment package size. Check out more details on lambda layers [here](https://docs.aws.amazon.com/lambda/latest/dg/chapter-layers.html).
   - In the case of the agent Lambda function, the `layers.zip` file should contains the "requests" library, which is required for making HTTP requests to the `alphavantage API`.
@@ -358,7 +369,7 @@ Once you run the above command in cloud 9 environment, it will take approximatel
     ```
     zip -r12 layers.zip python
     ```
-  - Now that you have created the layers.zip file with r12 (aka runtime python 3.12 version), you should be able to upload this zip file and attach as a layer to your lambda function for leveraging in the stylist application.
+  - Now that you have created the layers.zip file with r12 (aka runtime python 3.12 version), you should be able to upload this zip file and attach as a layer to your lambda function for leveraging in the application.
   
   - **Custom Layer upload steps**:
     - Open the [Layers page](https://console.aws.amazon.com/lambda/home#/layers) of the Lambda console.
@@ -380,7 +391,7 @@ Once you run the above command in cloud 9 environment, it will take approximatel
       - For the `Specify an ARN` layer source, enter an `ARN` in the text box and choose Verify. Then, choose `Add`.
     - Once the layer is attached, you can save the lambda function configuration.
 
-The use of a Lambda function, environment variables, and custom libraries (as Lambda Layers) demonstrates the flexibility and extensibility of the Virtual Personal Stylist application, allowing for the integration of various third-party services and functionalities as needed. In case you want to create your own lambda layer, follow the next section.
+The use of a Lambda function, environment variables, and custom libraries (as Lambda Layers) demonstrates the flexibility and extensibility of the application, allowing for the integration of various third-party services and functionalities as needed. In case you want to create your own lambda layer, follow the next section.
 
 Apart from the above functions, additional lambda functions are created as part of CDK stack deployment but no setup or configuration changes is required for running the application. The user can now proceed with the front-end deployment instructions.
 
@@ -417,43 +428,9 @@ Apart from the above functions, additional lambda functions are created as part 
 ![InvestmentAnalyst-Demo-1](assets/images/InvestmentAnalyst-Demo-1.png)
 - Please read the application details from the left panel and execute different user scenarios.
 
-<!-- 
-- **Text Generation Feature**
-  - Once you login to the app using your username and password that you created in Cognito above, you will land on the Chat portal similar to what is shown below. Note that the UI frontend may look a bit different, though the key features/functionality will be the same.
-   ![ui-1](assets/images/ui-1.png)
-  - You can enter the following query in the chat box and click on `Send`:
-  ```
-  I'm a 30 year old female traveling to Delhi for a friends wedding. What to wear for the function?
-  ```
-   ![ui-2](assets/images/ui-2.png)
-  
-  - This shows the textual recommendation received for the user based on their profile and weather conditions for the location fetched from Amaon Bedrock Agents interacting with OpenWeatherAPI tool.
-
-- **Image Generation Feature**
-  - Now we can copy the text recommendation as shown below and go to Generate Image tab to generate an image recommendation. This invokes Stable Diffusion SDXL1.0 model available on Amazon Bedrock to generate a suitable image from the input text, as shown below in the image.
-  - After clicking on `Generate Image`, you should be able to see an image recommendation generated pertaining to the input text.
-   ![ui-3](assets/images/ui-3.png)
-
-- **Product Image Search Feature**
-  - Now let's navigate to the Product search tab (3rd tab) within the app UI, and try out the search feature. This feature is able to search and display for top 3 images from the stored data (S3) that resembles the search query entered by the user.
-  - As shown in the image below, the user copies the previously generated textual recommendation from the LLM availble on Amazon Bedrock and pastes in the the text box to get image recommendations from the image catalog.
-  ![ui-4](assets/images/ui-4.png)
-
-  - Note that the images pre-existing in the database are being displayed in the output based on the similarity score. If the images corresponding to the text are not present in the your stored data, the image recommendations might not be very useful to the end user.
-   ![ui-5](assets/images/ui-5.png)
-
-Now you may go back to the chat feature and experiment with our other activities as shown below. Notice that the Agent may ask a follow up question for the user question and provides a clothing recommendation based on information extracted from the query and using RAG approach by extracting custom styling recommendations from the stored data:  
-   ```
-   I'm planning to go to Alaska for a few days. What to wear?
-   ```
-
-![ui-6](assets/images/ui-6.png)
-
-- Check solution demo for more details - [Solution Demo](https://youtu.be/EqJ7TmTbbD8) -->
-
 ## Next Steps
 
-Here are some suggestions and recommendations on how customers can modify the parameters and components of the Virtual Personal Stylist application to further enhance it according to their requirements:
+Here are some suggestions and recommendations on how customers can modify the parameters and components of the Investment analyst application to further enhance it according to their requirements:
 
 1. **Customization of the User Interface (UI)**:
    - Customers can customize the frontend to match their branding and design requirements.
@@ -461,31 +438,17 @@ Here are some suggestions and recommendations on how customers can modify the pa
    - Customers can also integrate the application with their existing web or mobile platforms to provide a more cohesive user experience.
 
 2. **Expansion of the Knowledge Base**:
-   - Customers can expand the knowledge base by ingesting additional data sources, such as industry trends, seasonal fashion information, and user preferences.
-   - This can help improve the quality and relevance of the styling recommendations provided by the application.
+   - Customers can expand the knowledge base by ingesting additional data sources, such as financial trends, and user preferences.
+   - This can help improve the quality and relevance of the retrived information provided by the application.
    - Customers can also explore incorporating user feedback and interactions to continuously refine and update the knowledge base.
 
 3. **Integration with External Data Sources**:
-   - Customers can integrate the application with additional data sources, such as social media trends, and inventory management systems.
-   - This can enable more comprehensive and context-aware recommendations, taking into account factors like current fashion trends, and product availability.
+   - Customers can integrate the application with additional data sources and APIs.
+   - This can enable more comprehensive and context-aware insights, taking into account factors like options trading insights, combined portfolio analysis in comparison to other portfolios.
 
 4. **Multilingual and Localization Support**:
-   - Customers can extend the application to support multiple languages and cultural preferences, making it accessible to a broader user base.
-   - This may involve translating the user interface, adapting the styling recommendations to local fashion trends, and ensuring the application's content is relevant and appropriate for different regions and demographics.
-<!-- 
-5. **Integration with E-commerce Platforms**:
-   - Customers can integrate the Virtual Personal Stylist application with their existing e-commerce platforms, enabling seamless product discovery, purchase, and order fulfillment.
-   - This can create a more streamlined and personalized shopping experience for users, where they can directly purchase the recommended items from within the application.
-
-6. **Offline Capabilities and Progressive Web App (PWA) Support**:
-   - Customers can explore building a Progressive Web App (PWA) version of the Virtual Personal Stylist, allowing users to access the application offline and providing a more reliable and responsive experience.
-   - This can be particularly useful for users with intermittent or unreliable internet connectivity, enhancing the accessibility and usability of the application.
-
-7. **Advanced Analytics and Reporting**:
-   - Customers can integrate the application with business intelligence and analytics tools to gain deeper insights into user behavior, recommendation performance, and overall application usage.
-   - This can help customers make data-driven decisions to further optimize the Virtual Personal Stylist and better align it with their business objectives.
-
-By exploring these next steps, customers can tailor the Virtual Personal Stylist application to their specific needs, enhance the user experience, and unlock new opportunities for growth and innovation within their fashion and retail businesses. -->
+   - Customers can extend the application to support multiple languages, charts and cultural preferences, making it accessible to a broader user base.
+   - This may involve translating the user interface, adapting the styling  to local ongoing market trends, and ensuring the application's content is relevant and appropriate for different regions and demographics.
 
 ## Cleanup
 
@@ -504,7 +467,7 @@ By exploring these next steps, customers can tailor the Virtual Personal Stylist
 1. **Bedrock Agents**:
    - Log in to the AWS Management Console and navigate to the Amazon Bedrock service.
    - Choose Agents from the left navigation pane.
-   - Locate the Bedrock agents used by the Virtual Personal Stylist application. 
+   - Locate the Bedrock agents used by the application.
    - To delete an agent, choose the option button that's next to the agent you want to delete.
    - A dialog box appears warning you about the consequences of deletion. To confirm that you want to delete the agent, enter delete in the input field and then select Delete.
    - When deletion is complete, a success banner appears.
@@ -522,7 +485,7 @@ By exploring these next steps, customers can tailor the Virtual Personal Stylist
    - Review the warnings for deleting a knowledge base. If you accept these conditions, enter delete in the input box and select Delete to confirm.
 
 3. **S3 Bucket Content**:
-   - The Virtual Personal Stylist application may use an S3 bucket to store generated images or other unstructured data.
+   - The application may use an S3 bucket to store generated images or other unstructured data.
    - If the S3 bucket was not managed by the CDK app, you will need to delete the contents of the bucket manually.
    - Log in to the AWS Management Console and navigate to the S3 service.
    - Locate the S3 bucket used by the application and delete all the objects within it.
@@ -531,7 +494,7 @@ By exploring these next steps, customers can tailor the Virtual Personal Stylist
 4. **Cognito User Pool**:
    - If the Amazon Cognito user pool was not managed by the CDK app, you will need to delete it manually.
    - Go to the Amazon Cognito [console](https://console.aws.amazon.com/cognito/home). From the navigation, choose User Pools.
-   - Select the user pool title as `VirtualStylistUserPool..` in the console.
+   - Select the user pool created via this application titled as `InvestmentAnalystStack..UserPool..` in the console.
    - Choose `Delete`.
    - Enter the name of the user pool to confirm.
 
