@@ -44,13 +44,15 @@ with st.sidebar:
     - **Data Visualization**: Visualize financial data through interactive charts and tables, making it easier to understand revenue, expenses, and income metrics.
     - **Interactive Q&A**: Upload Financial PDF documents and ask questions about their content. The application uses advanced AI to process the documents and provide accurate answers.
     - **News & Sentiments**: Analyze latest News and Sentiments for the stock.
+    - **Investment Analysis**:Analyze investment by merging structured data with unstructured data such as news, social media, research reports etc.
 
     ### How to Use the Application
 
     1. **Analysis Overview**: Start by entering a stock ticker in the 'Analysis Overview' tab and click 'Analyze Financials' to get detailed financial analysis.
     2. **Financial Data**: View detailed financial data in various formats including JSON, tables, and interactive charts in the 'Financial Data' tab.
     3. **Interactive Q&A**: Upload relevant PDF documents and use the Q&A feature to ask questions about the content. This can help you dive deeper into specific areas of interest.
-    4. **News and Sentiments**": Start by entering a stock ticker to get latest News and Sentiment data about the stock.
+    4. **News and Sentiments**: Start by entering a stock ticker to get latest News and Sentiment data about the stock.
+    5. **Investment Analysis**: This tab will help user to analyze investment by merging structured data with unstructured data such as news, social media, research reports etc.
     
     Explore these features through the tabs above and enhance your investment research and analysis process.
     """)
