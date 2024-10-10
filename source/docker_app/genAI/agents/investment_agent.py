@@ -76,6 +76,25 @@ class CustomIncomeStatementParsers(StrOutputParser):
 
 bedrock_region = Config.BEDROCK_REGION
 bedrock_runtime = boto3.client("bedrock-runtime", region_name=bedrock_region)
+
+
+# Create an SSM client
+ssm_client = boto3.client('ssm')
+
+# Define the parameter name
+parameter_name = '/InvestmentAnalystAssistant/kb_id'
+
+# Retrieve the parameter value
+response = ssm_client.get_parameter(
+    Name=parameter_name,
+    WithDecryption=False
+)
+
+# Get the parameter value
+KB_ID = response['Parameter']['Value']
+
+print(f"KB_ID : {KB_ID}")
+
 claude_chat_llm = ChatBedrock(
     model_id=Config.LLM_MODEL_ID,
     client=bedrock_runtime,
@@ -83,8 +102,8 @@ claude_chat_llm = ChatBedrock(
 )
 
 amzn_kb_retriever = AmazonKnowledgeBasesRetriever(
-    knowledge_base_id="XFG61CFOTV",
-    retrieval_config={"vectorSearchConfiguration": {"numberOfResults": 4}},
+    knowledge_base_id=KB_ID,
+    retrieval_config={"vectorSearchConfiguration": {"numberOfResults": 10}},
 )
 
 kb_retriever_tool = create_retriever_tool(

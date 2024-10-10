@@ -2,6 +2,7 @@ import streamlit as st
 from auth.auth import Auth
 from config_file import Config
 import fundamental_analysis as fundamental_analysis
+import investment_analysis as investment_analysis
 import financial_data as financial_data
 import qualitative_qa as qualitative_qa
 import news_and_sentiments as news_and_sentiments
@@ -58,7 +59,7 @@ with st.sidebar:
 st.title("Investment Analyst Assistant")
 
 # Main Tabs for the application
-tab1, tab2, tab3, tab4 = st.tabs(["Fundamental Analysis using LLM", "Financial Data", "Qualitative Data Q&A", "News and Sentiments"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Fundamental Analysis using LLM", "Financial Data", "Qualitative Data Q&A", "News and Sentiments", "Investment Analysis"])
 
 # Render the content of each tab
 with tab1:
@@ -72,3 +73,6 @@ with tab3:
 
 with tab4:
     news_and_sentiments.render()
+
+with tab5:
+    investment_analysis.render()    

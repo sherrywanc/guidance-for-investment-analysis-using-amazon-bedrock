@@ -65,7 +65,15 @@ class CdkStack(Stack):
             parameter_name="/InvestmentAnalystAssistant/agent_alias_id",
             string_value=Config.AGENT_ALIAS_ID
         )
-  
+
+        # create parameters for storing agent knowledgebase id in parameter store
+        knowledgebase_parameter = ssm.StringParameter(
+            self,
+            "KnowledgeBaseIDParameter",
+            parameter_name="/InvestmentAnalystAssistant/kb_id",
+            string_value=Config.KB_ID
+        )
+
         # VPC for ALB and ECS cluster
         vpc = ec2.Vpc(
             self,
@@ -300,4 +308,11 @@ class CdkStack(Stack):
             value=agent_alias_parameter.parameter_name,
             description="Agent Alias ID",
             export_name="AgentAliasID"
+        )
+        CfnOutput(
+            self,
+            "KBID",
+            value=knowledgebase_parameter.parameter_name,
+            description="Knowledge Base ID",
+            export_name="KBID"
         )

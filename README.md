@@ -154,7 +154,7 @@ This Guidance uses AWS CDK. If you are using aws-cdk for the first time, please 
 
 3. Navigate to the folder: docker_app using
    ```
-   cd source/docker_app
+   cd docker_app
    ```
 
 4. This project is a Python Project. Switch to the Virtual Env using the below command:
@@ -203,15 +203,40 @@ Once you run the above command in cloud 9 environment, it will take approximatel
 
 - Once cdk stack is deployed and assets are created, you can navigate setup the Amazon Knowledge Base and Amazon Bedrock Agents to leverage custom agent tool.
 
-- **Amazon Bedrock Knowledge base creation - TBD-CHINTAN**
-  - Navigate to Amazon Bedrock Knowledge base in AWS console.
-  - Follow [instructions](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create.html) to create your own Bedrock Knowledge Base with Opensearch serverless vector DB in your account.
-  - Provide a knowledge base name.
-  - Further, provide the S3 URI of the object containing the files for the data source that you prepared, that is, select the S3 as data source to your Knowledge base setup that got created due to CDK deployment.
-    - For this, click `browse s3` and select bucket starting with the name - `virtualstyliststack-virtualstylistappbucketcdk`
-  - Next, you can keep the chunking strategy as "default", select `Titan Text Embeddings v2` model to embed the information and select `Quick create a new vector store` in order to have default option for the vector DB when creating the knowledge base. Note that Knowledge Base can take approximately 10 minutes to be created.
-  - Take note of the `data source ID` and `knowledge base ID` once the knowledge base has been created. You will add the `Data source ID` and `knoweldge base ID` as environment variables to AWS lambda Virtual Stylist Text function that resulted from CDK deployment.
-  - These 2 values will also be added to the environment variables in `Ingestion Lambda function` responsible to ingesting any new product catalog or customer reviews files uploaded to your designated S3 bucket.
+- **Amazon Bedrock Knowledge base creation**
+   #### Create S3 Bucket
+   In the S3 bucket, we will store various information related to stock research reports and basic information related to Investments. 
+
+   - Search on Amazon S3 in the search console and create S3 bucket. The name of the bucket should start with your AWS account number and some random number. The following should be the format **AWSAccountNo-investment-RandomNo**
+   - Download investment research Articles and upload them in the S3 bucket.  
+
+
+   #### Create Amazon Bedrock KnowledgeBase
+
+   - Go to Amazon Bedrock Console --> Builder Tool --> Knowledge Bases
+
+   - Click on Create Knowledge Bases 
+
+   - Provide Knowledge Bases Name as 'Investment-KB'. Keep everything as default and click on next. The default selections are S3 Bucket for datasource and create new IAM Role
+
+   - Provide Datasource Name as: Investment-research-reports and select the name of S3 bucket created in the previous step for S3 URI
+
+   - Keep everything as default and click on next
+
+   - Select "Titan Text Embeddings v2" as embedding model
+
+   - Select "Quick create a new vector store - Recommended" for vector database
+
+   - Click on next and then click on Create Knowledge Base
+
+   This will create new knowledge base. We can add more data sources if needed. 
+
+   ### Modify System Parameters
+
+   - Navigate to the AWS Systems Manager console 
+   - Go to the toggle on the left, and under Application Management select Parameter Store
+   - Select and edit following parameters - **'/InvestmentAnalystAssistant/kb_id'**
+   - Set value of knowledge base from the previous steps
 
 - **Amazon Bedrock Agent Creation**
   - Navigate to Amazon Bedrock Agents in AWS console. Click on `Create Agent` to initiate building a new Bedrock Agent.
