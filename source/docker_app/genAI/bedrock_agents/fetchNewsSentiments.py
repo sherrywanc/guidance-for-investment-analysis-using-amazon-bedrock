@@ -1,4 +1,4 @@
-#Fetch News and Sentiments
+# Fetch News and Sentiments
 import boto3
 from config_file import Config  # Ensure this module is available
 import json
