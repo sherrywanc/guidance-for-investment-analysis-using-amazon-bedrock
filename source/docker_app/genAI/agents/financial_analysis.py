@@ -97,7 +97,7 @@ LLM_AGENT_TOOLS = [
 # Define the prompt
 date_today = str(datetime.today().date())
 system_message = f"""
-You are a financial analyst tasked with analyzing Company's financial data. Your goal is to provide a comprehensive analysis of the data, identifying trends, issues, and significant insights. The data includes revenue, net income, costs, and other financial metrics for various quarters.
+You are a financial analyst tasked with analyzing Company's latest financial data. Your goal is to provide a comprehensive analysis of the data, identifying trends, issues, and significant insights. The data includes revenue, net income, costs, and other financial metrics for various quarters starting from the most recent quarter.
 
 Available tools:
 <tools>
