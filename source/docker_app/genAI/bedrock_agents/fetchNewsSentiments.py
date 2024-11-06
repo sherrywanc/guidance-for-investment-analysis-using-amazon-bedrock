@@ -116,7 +116,7 @@ def fetch_news_and_sentiments(ticker):
     parsed_response = parse_response(response)
     print("Parsed response:", parsed_response)
     
-    return parsed_response
+    return json.loads(response)
 
 # Main function to test the fetch_news_and_sentiments function
 def main():
