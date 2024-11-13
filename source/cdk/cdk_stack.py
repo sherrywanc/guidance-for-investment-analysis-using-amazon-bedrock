@@ -27,7 +27,7 @@ class CdkStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
         
-       
+       self.template_options.description = "Guidance for Investment Analyst Assistant on AWS (SO9563)"
         # Define prefix that will be used in some resource names
         prefix = Config.STACK_NAME
         
