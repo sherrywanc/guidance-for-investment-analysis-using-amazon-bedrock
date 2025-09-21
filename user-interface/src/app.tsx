@@ -6,6 +6,7 @@ import FinancialDataPage from "./pages/financial-data";
 import FundamentalAnalysisPage from "./pages/fundamental-analysis";
 import InvestmentAnalystPage from "./pages/investment-analysis";
 import InvestmentAnalystHomePage from "./pages/investment-analyst-home";
+import IndustryReportPage from "./pages/industry-report";
 import NotFound from "./pages/not-found";
 import QualitativeQnAPage from "./pages/qualitative-qna";
 import TickerNewsPage from "./pages/ticker-news";
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/financialdata" element={<FinancialDataPage />}/>
             <Route path="/qualitativeqna" element={<QualitativeQnAPage />}/>
             <Route path="/investmentanalysis" element={<InvestmentAnalystPage />}/>
+            <Route path="/industryreport" element={<IndustryReportPage />}/>
             <Route path="/chat" element={<ChatUI />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

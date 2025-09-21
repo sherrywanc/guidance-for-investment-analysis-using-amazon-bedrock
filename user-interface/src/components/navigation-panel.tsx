@@ -43,6 +43,11 @@ export default function NavigationPanel() {
       },
       {
         type: "link",
+        text: "Macro Industry Report",
+        href: "/industryreport",
+      },
+      {
+        type: "link",
         text: "Chat",
         href: "/chat"
       }                  

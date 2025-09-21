@@ -6,6 +6,7 @@ import { IConstruct } from "constructs";
 import "source-map-support/register";
 import { FrontEndStack } from "../lib/frontend_infra";
 import { GenAIInfraStack } from "../lib/genai_infra";
+import * as oss from "aws-cdk-lib/aws-opensearchserverless";
 
 const app = new cdk.App();
 
@@ -49,9 +50,9 @@ cdk.Tags.of(genai_infra).add('SOLUTION_ID', 'SO9563');
 cdk.Tags.of(genai_infra).add('ENV', 'POC');
 class PathTagger implements cdk.IAspect {
   visit(node: IConstruct) {
-    if (node ! instanceof cdk.aws_opensearchserverless.CfnCollection) {
-      new cdk.Tag("aws-cdk-path", node.node.path).visit(node);
-    }
+    // Tag all resources with their CDK path to aid troubleshooting.
+    // If OpenSearch Serverless collections are present, they will be tagged as well.
+    new cdk.Tag("aws-cdk-path", node.node.path).visit(node);
   }
 }
  

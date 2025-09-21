@@ -9,6 +9,7 @@ from lib.financial_analysis import analyze_financials
 from lib.investment_agent import analyze_investment
 from lib.investment_chat import chat_investment
 from lib.news import fetch_news_and_sentiments
+from lib.macro_industry_report import generate_macro_industry_report
 
 logger = Logger(service="investment-analyst-websocket-handler")
 tracer = Tracer(service="investment-analyst-websocket-handler")
@@ -181,6 +182,19 @@ def handler(event, context):
                 send_response(domainName, stg, connection_id, req_recvd_response) # Responding with request received to avoid connection timeout
                 chat_response = chat_investment(question, connection_id)
                 send_response(domainName, stg, connection_id, str(chat_response))
+            elif body["action"] == "getIndustryReport":
+                industry = body.get('industry', '')
+                region = body.get('region', 'global')
+                time_horizon = body.get('time_horizon', 'next 12 months')
+                if not industry:
+                    response = {"statusCode": 400, "body": {"error": "'industry' is required"}}
+                    send_response(domainName, stg, connection_id, response)
+                else:
+                    logger.info(f"Received getIndustryReport request for: {industry} | region={region} | horizon={time_horizon}")
+                    send_response(domainName, stg, connection_id, req_recvd_response)
+                    report = generate_macro_industry_report(industry, region, time_horizon)
+                    response = {"statusCode": 200, "body": {"industry_report": report}}
+                    send_response(domainName, stg, connection_id, response)
             else:
                 response["statusCode"] = 404
     else:
